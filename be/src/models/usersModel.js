@@ -1,4 +1,4 @@
-    const { connectDB } = require("../config/config.js");
+    const { connectDB, closeDB } = require("../config/config.js");
     const query = require("../config/query.js");
 
     let pool;
@@ -74,3 +74,14 @@
 
 
     module.exports = usersModel;
+
+    // (async () => {
+    //     try {
+    //         await initDB(); // Chờ việc kết nối hoàn tất
+    //         const users = await usersModel.getUserById(9); // Đảm bảo sử dụng `await`
+    //         console.log(users);
+    //         await closeDB();
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // })();
