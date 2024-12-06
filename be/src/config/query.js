@@ -3,7 +3,9 @@ const { connectDB } = require("./config.js");
 let pool;
 
 async function initDB() {
-    pool = await connectDB();
+    if (!pool) {
+        pool = await connectDB();
+    }
 }
 
 initDB();
@@ -13,7 +15,9 @@ const Query = {
         try {
             const keys = Object.keys(condition);
             const values = Object.values(condition);
-            const whereClause = keys.map((key) => `${key} = ?`).join(" AND ");
+    
+            const whereClause = keys.map((key) => `${key} = ?`).join(" AND ");            
+
             const query = `SELECT * FROM ${table} ${keys.length > 0 ? `WHERE ${whereClause}` : ""} LIMIT 1`;
             const [rows] = await pool.query(query, values);
             return rows[0] || null;
@@ -24,11 +28,13 @@ const Query = {
 
     getAll: async (table, condition = {}) => {
         try {
+            //await initDB(); 
+
             const keys = Object.keys(condition);
             const values = Object.values(condition);
             const whereClause = keys.map((key) => `${key} = ?`).join(" AND ");
-            const query = `SELECT * FROM ${table} ${keys.length > 0 ? `WHERE ${whereClause}` : ""}`;
-            const [rows] = await pool.query(query, values);
+            const queries = `SELECT * FROM ${table} ${keys.length > 0 ? `WHERE ${whereClause}` : ""}`;
+            const [rows] = await pool.query(queries, values);
             return rows;
         } catch (error) {
             console.log(error);
@@ -87,7 +93,22 @@ const Query = {
         } catch (error) {
             console.log(error);
         }
-    },
+    }
+
 };
 
 module.exports = Query;
+
+
+/*
+(async () => {
+    try {
+        await initDB(); // Chờ việc kết nối hoàn tất
+        const users = await Query.getOne("User", { email: 'student3@example.com'}); // Đảm bảo sử dụng `await`
+        console.log(users.password);
+    } catch (error) {
+        console.error(error);
+    }
+})();
+*/
+

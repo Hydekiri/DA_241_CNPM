@@ -1,3 +1,5 @@
+USE da241_db;
+
 -- Bảng `User`
 CREATE TABLE IF NOT EXISTS `User` (
     `user_ID` INT AUTO_INCREMENT PRIMARY KEY,
