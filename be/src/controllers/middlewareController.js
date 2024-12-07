@@ -18,7 +18,8 @@ const middlewareController = {
 
     verifyControllerAndAdmin: (req, res, next) => {
         middlewareController.verifyToken(req, res, () =>{
-            if(req.user.user_ID === parseInt(req.params.id) || req.user.role === "admin"){
+
+            if(req.user.user_ID === parseInt(req.params.id) || req.user.role === "spso" ){
                 next();
             }else{
                 res.status(403).json("You are not allowed !");
@@ -28,7 +29,7 @@ const middlewareController = {
 
     verifyAdmin: (req, res, next) => {
         middlewareController.verifyToken(req, res, () => {
-            if(req.user.role !== "admin"){
+            if(req.user.role === "spso"){
                 next();
             }else{
                 res.status(403).json("You are not allowed !");
