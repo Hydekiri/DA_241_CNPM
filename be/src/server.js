@@ -19,7 +19,9 @@ app.use("/api/d1/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 require("./config/connection.js");
 require("./routers/[index].js")(app);
+
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT} ✨`);
 });
